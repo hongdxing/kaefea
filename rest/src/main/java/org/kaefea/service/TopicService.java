@@ -11,18 +11,22 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
+import jakarta.annotation.ManagedBean;
+import jakarta.annotation.Resource;
+import org.jvnet.hk2.annotations.Service;
 import org.kaefea.KaefeaApp;
 import org.kaefea.constant.TopicConst;
 import org.kaefea.model.Message;
 import org.kaefea.model.OperateResult;
-import org.kaefea.App;
 
 import lombok.NoArgsConstructor;
 
 
+@Resource
+@ManagedBean
+@Service
 @NoArgsConstructor
 public class TopicService {
-
 
 	public OperateResult createTopic(String topicName) {
 
@@ -31,7 +35,7 @@ public class TopicService {
 			if(KaefeaApp.topics.containsKey(topicName)) {
 				return new OperateResult(false, String.format("Topic {} exist already", topicName));
 			}
-			
+
 			String dataDir = (String) KaefeaApp.properties.get("data.dir");
 			if (!dataDir.endsWith(File.pathSeparator)) {
 				dataDir = dataDir + File.pathSeparator;

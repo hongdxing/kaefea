@@ -1,8 +1,8 @@
 package org.kaefea;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Writer;
+import lombok.extern.slf4j.Slf4j;
+
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,15 +13,27 @@ import java.util.Properties;
  * Hello world!
  *
  */
+@Slf4j
 public class App
 {
-    public static void main( String[] args )
+    public static void main(String[] args )
     {
         try {
             System.out.println("Hello World!");
 
             KaefeaApp.properties = new Properties();
             KaefeaApp.topics = new HashMap<>();
+
+            try (InputStream input = new FileInputStream("./kaefea.properties")) {
+
+                Properties prop = new Properties();
+                prop.load(input);
+
+                log.info(prop.getProperty("data.dir"));
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
 
             // Start rest server
             RestServer restServer = new RestServer();

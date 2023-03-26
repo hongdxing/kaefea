@@ -30,28 +30,26 @@ public class RestServer {
                 new ServletContextHandler(ServletContextHandler.NO_SESSIONS);
 
         ctx.setContextPath("/");
-        server.setHandler(ctx);
 
         ServletHolder serHol = ctx.addServlet(ServletContainer.class, "/rest/*");
         serHol.setInitOrder(1);
-        serHol.setInitParameter("jersey.config.server.provider.packages",
-                "org.kaefea.rest");
+        //serHol.setInitParameter("jakarta.ws.rs.core.Application", "org.kaefea.RestApp");
+        serHol.setInitParameter("jersey.config.server.provider.packages", "org.kaefea");
 
         try {
+            server.setHandler(ctx);
             server.getConnectors();
             server.start();
             //server.join();
         } catch (Exception ex) {
             log.error(ex.getMessage());
-            //Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
-
             //server.destroy();
         }
     }
 
+    /*
     private void startTomcat(){
-        /*
         String webappDirLocation = "src/main/webapp/";
         Tomcat tomcat = new Tomcat();
 
@@ -88,10 +86,8 @@ public class RestServer {
         context.setResources(resources);
 
         tomcat.start();
-        */
     }
 
-    /*
     private ServletContainer resourceConfig() {
         return new ServletContainer(new ResourceConfig(new ResourceLoader().getClasses()));
     }*/
